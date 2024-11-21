@@ -45,12 +45,6 @@ A comprehensive expense tracking application built with ASP.NET Core MVC and SQL
    - .NET 6.0 or later
    - SQL Server
 
-# Expense Tracker
-
-A comprehensive expense tracking application built with ASP.NET Core MVC and SQL Server, featuring AI-powered financial insights and interactive dashboards.
-
-[Previous sections remain the same...]
-
 ## Database Setup and Migrations Guide
 
 ### 1. Install Required Packages
