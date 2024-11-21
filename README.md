@@ -191,29 +191,3 @@ Expense_Tracker/
 
 ```
 
-## Key Features Implementation
-
-### Dashboard
-The dashboard provides a comprehensive overview of financial data including:
-- 7-day financial summary
-- Income vs Expense visualization
-- Category-wise expense breakdown
-- Recent transactions
-
-### AI-Powered Analysis
-The application integrates with OpenAI's GPT-3.5 to provide:
-- Automated financial advice
-- Spending pattern analysis
-- Personalized recommendations
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
