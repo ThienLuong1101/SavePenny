@@ -1,0 +1,79 @@
+﻿@model Expense_Tracker.Models.Category
+
+@{
+    ViewData["PageTitle"] = Model.CategoryId == 0 ? "Create a new category" : "Edit category";
+}
+
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="widget p-5" style="background-color:#212b36">
+            <form asp-action="AddOrEdit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" name="CategoryId" value="@Model.CategoryId" />
+                <input type="hidden" id="selectedIcon" name="Icon" value="@Model.Icon" />
+
+                <div class="mb-3">
+                    <div class='e-btn-group custom-rbt-group'>
+                        <input type="radio" id="radioleft" name="Type" value="Expense" checked="@(Model.Type=="Expense")" />
+                        <label class="e-btn" for="radioleft">Expense</label>
+                        <input type="radio" id="radiomiddle" name="Type" value="Income" checked="@(Model.Type=="Income")" />
+                        <label class="e-btn" for="radiomiddle">Income</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <ejs-textbox id="title" placeholder="Title" ejs-for="Title" floatLabelType="Always"></ejs-textbox>
+                    <span asp-validation-for="Title" class="text-danger fs-6"></span>
+                </div>
+
+                <!-- Icon Selection Section -->
+                <div class="mb-3">
+                    <label for="iconSelection" class="form-label text-light">Choose an Icon</label>
+                    <div id="iconSelection" class="d-flex justify-content-start flex-wrap">
+                        <!-- Icon Buttons -->
+                        @foreach (var icon in new[] { "😊", "🔥", "🚗", "✈️", "🧳", "🐶", "💵", "🛒", "💎", "👖", "💪", "💊", "⚽", "🛖" })
+                        {
+                            <button type="button" class="icon-btn btn btn-light m-2" data-icon="@icon">
+                                @icon  <!-- Render the icon here -->
+                            </button>
+                        }
+
+                    </div>
+                    <span asp-validation-for="Icon" class="text-danger fs-6"></span>
+                </div>
+
+                <ejs-button id="submit" type="submit" content="Submit" cssClass="e-success"></ejs-button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="widget h-100 d-flex justify-content-center align-items-center">
+            <!-- Display selected icon -->
+            <i id="selectedIconDisplay" class="fa-solid @Model.Icon fa-2xl"></i>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Handle icon selection
+        document.querySelectorAll('.icon-btn').forEach(function (button) {
+            button.addEventListener('click', function () {
+                // Remove 'selected' class from all buttons
+                document.querySelectorAll('.icon-btn').forEach(function (btn) {
+                    btn.classList.remove('selected');
+                });
+
+                // Add 'selected' class to the clicked button
+                button.classList.add('selected');
+
+                var iconClass = button.getAttribute('data-icon');
+                // Update the hidden input field
+                document.getElementById('selectedIcon').value = iconClass;
+                // Update the displayed selected icon
+                document.getElementById('selectedIconDisplay').className = 'fa-solid ' + iconClass + ' fa-2xl';
+            });
+        });
+    </script>
+}

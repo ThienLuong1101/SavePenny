@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Expense_Tracker.Models.Transaction>
+@{
+    ViewData["PageTitle"] = "AIReports";
+
+}
+<div>
+    <!-- Optionally, you can list the Transactions here -->
+    <h4>Transactions:</h4>
+    <div class="row">
+        <div class="col-md-7">
+            <ejs-grid id="transactions" dataSource="@Model" gridLines="None"
+                      allowSorting="true" allowPaging="true">
+                <e-grid-pagesettings pageSize="10"></e-grid-pagesettings>
+                <e-grid-columns>
+                    <e-grid-column headerText="Category" field="CategoryTitleWithIcon"></e-grid-column>
+                    <e-grid-column headerText="Date" field="Date" width="110px"
+                                   type="date" format="MMM-dd-yy" textAlign="Left"></e-grid-column>
+                    <e-grid-column headerText="Amount" field="FormattedAmount" textAlign="Right" width="110px"></e-grid-column>
+
+                </e-grid-columns>
+            </ejs-grid>
+        </div>
+        <div class="col-md-5">
+            <div class="widget h-100 d-flex justify-content-center align-items-center">
+                <form asp-action="GenerateReport" asp-controller="AIReports" method="post" id="aiReportForm">
+                    <div>
+                        @if (ViewData["Message"] != null)
+                        {
+                            <!-- Display the AI message response -->
+                            <div class="transparent-alert">
+                                <p id="aiMessage"></p>
+                            </div>
+
+                        }
+                        else
+                        {
+                            <!-- Display the button when there is no message -->
+                            <button type="submit" id="submitButton" class="btn btn-success">
+                                🇦🇮 Generate 🚀
+                            </button>
+                            <!-- Loading spinner -->
+                            <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    document.getElementById('aiReportForm').addEventListener('submit', function () {
+        const submitButton = document.getElementById('submitButton');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+            // Disable the button and hide it
+        submitButton.disabled = true;
+        submitButton.style.display = 'none';
+        // Show the spinner
+            loadingSpinner.style.display = 'inline-block';
+        });
+
+    // Function to simulate typewriter effect
+        function typeWriter(element, text, speed) {
+            let i = 0;
+            let intervalId = setInterval(function() {
+                element.innerHTML += text.charAt(i);
+                i++;
+                if (i > text.length) {
+                    clearInterval(intervalId);
+                }
+            }, speed);
+        }
+
+          window.onload = function() {
+        const message = '@ViewData["Message"]';  // Retrieve the message passed from the controller
+
+        if (message) {
+            // Decode the HTML entities
+            const decodedMessage = decodeHTML(message);
+
+            // Get the element to display the decoded message
+            const aiMessageElement = document.getElementById('aiMessage');
+            aiMessageElement.innerHTML = '';  // Clear the element before starting the animation
+
+            // Use typewriter effect to display the decoded message
+            typeWriter(aiMessageElement, decodedMessage, 10);
+        }
+    };
+
+    // Function to decode HTML entities
+    function decodeHTML(html) {
+        var doc = new DOMParser().parseFromString(html, "text/html");
+        return doc.documentElement.textContent || doc.documentElement.innerText;
+    }
+
+
+</script>
